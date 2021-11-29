@@ -1,0 +1,50 @@
+<!doctype html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/styles.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700|Montserrat:300" rel="stylesheet">
+    <script src="/index.js" defer></script>
+    <title>Imageboard</title>
+</head>
+
+<body>
+
+    <header>
+        <h1 id="header">Imageboard</h1>
+    </header>
+
+    <main class="flex-column"> 
+
+        <form class="container-upload" v-on:submit.prevent="submitImage" >
+            <input class="upload-form user" v-model="title" name="title" placeholder="Title" required>
+            <input class="upload-form user" v-model="description" name="description" placeholder="Description" required>
+            <input class="upload-form user" v-model="username" name="username" placeholder="Username" required>
+            <label id="file-label" for="file-upload" class="upload-form btn">FILE</label>
+            <input id="file-upload" class="upload-form btn" type="file" accept="image/*" v-on:change="setImage" required>
+            <button class="upload-form btn">UPLOAD IMAGE</button>
+        </form>
+
+        <ul class="flex-row-center image-list" v-if= "images.length > 0">
+            <li v-on:click="onImageClick(img.id)" v-for="img in images" v-bind:key="img.id">
+                <img v-bind:src="img.url" v-bind:alt="img.title" class="main-img">
+            </li>
+        </ul>
+
+        <p v-else>NO IMAGES</p>
+        
+
+
+        <modal v-if="currentImageID" :id="currentImageID" v-on:close="onModalClose"></modal>
+        <button class="upload-form btn" v-if="!noMoreImages" v-on:click="loadMoreImages">load more</button>
+    </main>
+
+    <script src="/js/app.js" type="module" crossorigin="use-credentials"></script>
+    
+</body>
+
+</html>
